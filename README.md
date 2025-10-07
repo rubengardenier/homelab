@@ -40,3 +40,38 @@ Lightweight, power-efficient, and perfect for experimentation.
 
 ## 🧩 Structure
 
+homelab/
+│
+├── kubernetes-fundamentals/
+│ ├── setup/
+│ ├── deployments/
+│ └── notes/
+│
+├── infrastructure/
+│ ├── network/
+│ ├── storage/
+│ └── automation/
+│
+└── docs/
+├── lessons-learned.md
+└── roadmap.md
+
+
+
+Each section contains step-by-step guides, configurations, and experiments.
+
+---
+
+## 🚀 Vision
+
+The goal of this Homelab is to **bridge theory and practice** — to gain real-world skills that directly translate into professional cloud engineering, DevOps, and Kubernetes experience.
+
+Eventually, I plan to:
+- Run production-like services (e.g., Mealie, Gitea, Grafana)  
+- Automate cluster rebuilds end-to-end  
+- Experiment with hybrid Azure + on-prem setups
+
+---
+
+> _“If you can build and break it at home, you can run it in production.”_ 🧩
+
