@@ -1,6 +1,6 @@
 # 🧠 Homelab — My Personal Cloud & Kubernetes Playground
 
-Welcome to my **Homelab** project — a continuously evolving learning environment where I experiment with **cloud-native infrastructure**, **Kubernetes**, and **DevOps automation** on real hardware at home.
+Welcome to my **Homelab** project, a continuously evolving learning environment where I experiment with **cloud-native infrastructure**, **Kubernetes**, and **DevOps automation** on real hardware at home.
 
 This repository serves both as:
 - a **knowledge base** of everything I learn, build, and break  
