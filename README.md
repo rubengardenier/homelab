@@ -56,7 +56,7 @@ homelab/
 └── docs/
     ├── lessons-learned.md
     └── roadmap.md
-```text
+```
 
 
 Each section contains step-by-step guides, configurations, and experiments.
