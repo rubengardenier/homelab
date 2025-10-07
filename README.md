@@ -40,21 +40,22 @@ Lightweight, power-efficient, and perfect for experimentation.
 
 ## 🧩 Structure
 
+```text
 homelab/
 │
 ├── kubernetes-fundamentals/
-│ ├── setup/
-│ ├── deployments/
-│ └── notes/
+│   ├── setup/
+│   ├── deployments/
+│   └── notes/
 │
 ├── infrastructure/
-│ ├── network/
-│ ├── storage/
-│ └── automation/
+│   ├── network/
+│   ├── storage/
+│   └── automation/
 │
 └── docs/
-├── lessons-learned.md
-└── roadmap.md
+    ├── lessons-learned.md
+    └── roadmap.md
 
 
 
