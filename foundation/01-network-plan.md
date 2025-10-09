@@ -1,6 +1,6 @@
 # 🌐 Homelab — Network Plan & Configuration
 
-The **Network Plan** describes how my Homelab cluster is connected, how each node receives its IP address and hostname, and how the design will evolve over time.  
+The Network Plan describes how my Homelab cluster is connected, how each node receives its IP address and hostname, and how the design will evolve over time.  
 It serves both as a technical reference and as documentation of my decision-making process.
 
 ---
