@@ -82,5 +82,15 @@ network: {config: disabled}
 ip a
 ```
 
+🧱 Hostnames and Local Resolution
+
+Each node in the cluster has a clear, descriptive hostname:
+
+Node	Hostname
+Controller	controller
+Worker 1	worker-1
+Worker 2	worker-2
+
+Hostnames are set once using:
 
 
