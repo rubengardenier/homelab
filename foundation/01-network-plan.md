@@ -45,6 +45,7 @@ Edit the file:
 ```bash
 sudo nano /etc/netplan/50-cloud-init.yaml
 
+```
 Example configuration for worker-1:
 
 network:
@@ -59,3 +60,4 @@ network:
           via: 192.168.68.1
       nameservers:
         addresses: [1.1.1.1, 8.8.8.8]
+```
