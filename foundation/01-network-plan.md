@@ -82,7 +82,7 @@ network: {config: disabled}
 ip a
 ```
 
-🧱 Hostnames and Local Resolution
+##🧱 Hostnames and Local Resolution
 
 Each node in the cluster has a clear, descriptive hostname:
 
