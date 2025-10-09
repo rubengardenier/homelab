@@ -1,175 +1,106 @@
-# 🌐 Homelab Network Plan & Configuration
+# 🌐 Homelab — Network Plan & Configuration
 
-This document defines the current and future network setup of my Homelab cluster.  
-It covers static IP configuration, hostnames, Netplan setup, `/etc/hosts` entries, and planned VLAN segmentation.
+The **Network Plan** describes how my Homelab cluster is connected, how each node receives its IP address and hostname, and how the design will evolve over time.  
+It serves both as a technical reference and as documentation of my decision-making process.
 
 ---
 
 ## 🏠 Phase 1 — Current Network Setup
 
-My Homelab currently runs inside a **TP-Link Deco mesh WiFi system**, using a single subnet managed by the Deco router.
+The Homelab currently runs inside my home network managed by a **TP-Link Deco mesh system**.  
+All devices share a single flat subnet for simplicity and stability during the initial K3s deployment.
 
 | Setting | Value |
 |----------|--------|
-| Router | TP-Link Deco |
+| Router | TP-Link Deco (M5 mesh system) |
 | Subnet | `192.168.68.0/24` |
 | Gateway | `192.168.68.1` |
 | DNS | Cloudflare `1.1.1.1`, Google `8.8.8.8` |
 | DHCP | Enabled (Deco) |
-| VLANs | None (flat network) |
+| VLANs | None — flat LAN topology |
+
+💡 *The goal in this phase is simplicity: a predictable, stable environment for initial cluster builds and testing.*
 
 ---
 
 ## 🧾 Static IP & Hostname Overview
 
-All nodes use **locally configured static IPs** via Netplan (`/etc/netplan/50-cloud-init.yaml`).
+Each Ubuntu node uses a manually configured static IP via **Netplan** (`/etc/netplan/50-cloud-init.yaml`).  
+Hostnames follow a consistent pattern for clarity inside the cluster.
 
-| Role | Hostname | IP Address | OS / Notes |
-|------|-----------|-------------|-------------|
-| Controller | `controller` | `192.168.68.152` | Ubuntu Server 24.04 LTS |
-| Worker 1 | `worker-1` | `192.168.68.150` | Ubuntu Server 24.04 LTS |
-| Worker 2 | `worker-2` | `192.168.68.151` | Ubuntu Server 24.04 LTS |
+| Role | Hostname | IP Address | Notes |
+|------|-----------|-------------|--------|
+| Controller | `controller` | `192.168.68.152` | Main K3s control plane |
+| Worker 1 | `worker-1` | `192.168.68.150` | K3s worker node |
+| Worker 2 | `worker-2` | `192.168.68.151` | K3s worker node |
 | NAS | `ugreen-nas` | `192.168.68.50` | Ugreen NASync DXP2800 (NFS backend) |
-| Gateway | `deco-router` | `192.168.68.1` | TP-Link Deco system |
+| Gateway | `deco-router` | `192.168.68.1` | TP-Link Deco mesh router |
+
+All nodes have identical `/etc/hosts` entries for internal name resolution, allowing commands such as `ping controller` or `ssh worker-1` to work directly.
 
 ---
 
-## ⚙️ Netplan Configuration (Ubuntu 24.04+)
+## ⚙️ Configuration Highlights
 
-Static IPs are configured manually on each Ubuntu node using Netplan.  
-Edit the file `/etc/netplan/50-cloud-init.yaml`:
+### Static Networking
+Each node defines its IP address, gateway, and DNS servers locally using Netplan.  
+Cloud-Init network management is disabled to prevent overwriting settings.
 
-### Example configuration (for `worker-1`)
+### Hostnames
+- Controller → `controller`  
+- Worker 1 → `worker-1`  
+- Worker 2 → `worker-2`
 
-```yaml
-network:
-  version: 2
-  ethernets:
-    enp1s0:
-      dhcp4: false
-      addresses:
-        - 192.168.68.150/24
-      routes:
-        - to: default
-          via: 192.168.68.1
-      nameservers:
-        addresses: [1.1.1.1, 8.8.8.8]
-Apply changes:
+This convention keeps `kubectl get nodes` output clean and readable.
 
-bash
-Code kopiëren
-sudo netplan apply
-Optional — disable Cloud-Init overwriting:
+### Topology Diagram
+```text
+TP-Link Deco Router (192.168.68.1)
+│
+├── controller  192.168.68.152
+├── worker-1    192.168.68.150
+├── worker-2    192.168.68.151
+└── ugreen-nas  192.168.68.50
+Flat LAN 192.168.68.0/24 — simple, quiet, and ideal for early experimentation.
 
-bash
-Code kopiëren
-sudo nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
-yaml
-Code kopiëren
-network: {config: disabled}
-🧱 Hostname Configuration
-Each node has a clear and persistent hostname.
-
-bash
-Code kopiëren
-# Controller
-sudo hostnamectl set-hostname controller
-
-# Worker nodes
-sudo hostnamectl set-hostname worker-1
-sudo hostnamectl set-hostname worker-2
-Verify:
-
-bash
-Code kopiëren
-hostnamectl
-Output:
-
-scss
-Code kopiëren
-Static hostname: worker-1
-📜 /etc/hosts Configuration
-Each node includes the same host mappings for internal name resolution.
-
-bash
-Code kopiëren
-sudo nano /etc/hosts
-Content:
-
-javascript
-Code kopiëren
-127.0.0.1   localhost
-127.0.1.1   $(hostname)
-
-192.168.68.152   controller
-192.168.68.150   worker-1
-192.168.68.151   worker-2
-192.168.68.50    ugreen-nas
-💡 This allows simple hostname-based access:
-
-bash
-Code kopiëren
-ping controller
-ssh worker-1
-🗺️ Network Topology
-text
-Code kopiëren
-                    ┌────────────────────────────┐
-                    │      TP-Link Deco Router   │
-                    │     192.168.68.1 (Gateway) │
-                    └────────────┬───────────────┘
-                                 │
-                ┌────────────────┴────────────────┐
-                │           LAN / WiFi            │
-                │         192.168.68.0/24         │
-                └────────────────┬────────────────┘
-                                 │
-   ┌────────────────────┬────────────────────┬────────────────────┐
-   │                    │                    │                    │
-192.168.68.152     192.168.68.150      192.168.68.151       192.168.68.50
-controller         worker-1            worker-2              ugreen-nas
-(control plane)    (K3s node)          (K3s node)            (NFS storage)
 🔐 Security Notes
-SSH access limited to LAN (192.168.68.0/24)
+SSH access allowed only inside the local LAN (192.168.68.0/24)
 
-NAS NFS exports restricted to controller + worker IPs
+NFS exports on the NAS restricted to cluster IP addresses
 
-No inbound ports exposed to the internet
+No inbound ports exposed to the public internet
 
-Deco remote management disabled
+Deco cloud remote management disabled
 
-SSH key authentication enabled on all nodes
-
-Future goal: firewall rules between home and lab traffic
+SSH key-based authentication enforced on all nodes
 
 🔮 Phase 2 — Future Network Segmentation
-In a future phase, the flat network will evolve into a segmented VLAN setup.
+As the Homelab grows, the plan is to migrate from the current flat layout to a segmented design using VLANs or separate subnets.
+This will enable isolation between home, lab, and storage traffic and better emulate production environments.
 
 VLAN	Subnet	Purpose
 10	192.168.10.0/24	Home & IoT devices
 20	192.168.20.0/24	Homelab / Kubernetes nodes
-30	192.168.30.0/24	NAS & storage traffic
+30	192.168.30.0/24	NAS and storage traffic
 99	192.168.99.0/24	Management & monitoring
 
-Goals
+Benefits
 
-Isolate homelab workloads from home network
+Clear separation between workloads
 
-Reduce broadcast and background traffic
+Easier firewall and access-control policies
 
-Enable more granular firewall and routing control
+Reduced broadcast traffic
 
-Prepare for managed networking hardware (pfSense, UniFi, MikroTik)
+Foundation for pfSense / UniFi / MikroTik integration
 
 ✅ Summary
-Single subnet: 192.168.68.0/24 (Deco)
+Current phase: single flat subnet 192.168.68.0/24 on Deco mesh
 
-Static IPs set manually via /etc/netplan/50-cloud-init.yaml
+Static IPs configured locally via Netplan
 
-Hostnames: controller, worker-1, worker-2
+Hostnames: controller, worker-1, worker-2, ugreen-nas
 
-/etc/hosts consistent across all nodes
+Secure, quiet, and predictable environment for K3s
 
-Secure, simple, and stable for K3s deployment
-
-Next step: VLAN segmentation and management isolation
+Next step: introduce VLAN segmentation and dedicated management network
