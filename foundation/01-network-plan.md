@@ -22,4 +22,25 @@ All devices share a single flat subnet for simplicity and stability during the i
 💡 *The goal in this phase is simplicity: a predictable, stable environment for initial cluster builds and testing.*
 
 ---
+## 🧾 Static IP & Hostname Overview
 
+Each Ubuntu node uses a **manually configured static IP** via Netplan (`/etc/netplan/50-cloud-init.yaml`).  
+Hostnames follow a consistent pattern for clarity inside the cluster.
+
+| Role | Hostname | IP Address | Notes |
+|------|-----------|-------------|--------|
+| Controller | `controller` | `192.168.68.152` | Main K3s control plane |
+| Worker 1 | `worker-1` | `192.168.68.150` | K3s worker node |
+| Worker 2 | `worker-2` | `192.168.68.151` | K3s worker node |
+| NAS | `ugreen-nas` | `192.168.68.50` | Ugreen NASync DXP2800 (NFS backend) |
+| Gateway | `deco-router` | `192.168.68.1` | TP-Link Deco mesh router |
+
+---
+
+## ⚙️ Netplan Configuration (Ubuntu 24.04 LTS)
+
+Static IPs are configured manually on each Ubuntu node.
+
+Edit the file:
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
