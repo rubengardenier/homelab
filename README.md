@@ -95,4 +95,5 @@ Experiment with hybrid Azure + on-prem setups
 
 Develop a custom Arch Linux–based Kubernetes distribution optimized for homelab and learning
 
+
 “If you can build and break it at home, you can run it in production.” 🧩
