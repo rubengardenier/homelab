@@ -44,3 +44,18 @@ Static IPs are configured manually on each Ubuntu node.
 Edit the file:
 ```bash
 sudo nano /etc/netplan/50-cloud-init.yaml
+
+Example configuration for worker-1:
+
+network:
+  version: 2
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      addresses:
+        - 192.168.68.150/24
+      routes:
+        - to: default
+          via: 192.168.68.1
+      nameservers:
+        addresses: [1.1.1.1, 8.8.8.8]
