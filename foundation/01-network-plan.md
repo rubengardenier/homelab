@@ -81,15 +81,15 @@ network: {config: disabled}
 ```
 ip a
 ```
-
 ## 🧱 Hostnames and Local Resolution
 
 Each node in the cluster has a clear, descriptive hostname:
 
-Node	Hostname
-Controller	controller
-Worker 1	worker-1
-Worker 2	worker-2
+| Node | Hostname |
+|------|-----------|
+| Controller | controller |
+| Worker 1 | worker-1 |
+| Worker 2 | worker-2 |
 
 Hostnames are set once using:
 ```
@@ -101,7 +101,53 @@ and verified with:
 hostnamectl
 ```
 
-To ensure smooth internal name resolution, all nodes share the same /etc/hosts entries:
+## 🧩 Configure /etc/hosts for Local Name Resolution
+To ensure smooth internal name resolution, all nodes share the same /etc/hosts entries.
+This allows you to use hostnames (like controller, worker-1, or worker-2) instead of IP addresses.
+
+Follow these steps on each node (controller, worker-1, and worker-2):
+
+1. Open the hosts file:
+```
+sudo nano /etc/hosts
+```
+
+2. Keep the first two default lines as they are, but replace <hostname> with the correct name for that node:
+- On controller → 127.0.1.1 controller
+- On worker-1 → 127.0.1.1 worker-1
+- On worker-2 → 127.0.1.1 worker-2
+
+3. Add these shared lines below:   
+```
+192.168.68.152   controller
+192.168.68.150   worker-1
+192.168.68.151   worker-2
+192.168.68.50    ugreen-nas
+```
+4. Save and close (Ctrl + O, Enter, then Ctrl + X).
+
+5. Test from each node:
+```
+ping controller
+ping worker-2
+ssh worker-1
+```
+If these commands respond successfully, hostname resolution across your cluster is working correctly.
+
+
+## Example /etc/hosts Files
+🖥️ Controller
+```
+127.0.0.1   localhost
+127.0.1.1   controller
+
+192.168.68.152   controller
+192.168.68.150   worker-1
+192.168.68.151   worker-2
+192.168.68.50    ugreen-nas
+```
+
+⚙️ Worker-1
 ```
 127.0.0.1   localhost
 127.0.1.1   worker-1
@@ -111,22 +157,31 @@ To ensure smooth internal name resolution, all nodes share the same /etc/hosts e
 192.168.68.151   worker-2
 192.168.68.50    ugreen-nas
 ```
+
+⚙️ Worker-2
+```
+127.0.0.1   localhost
+127.0.1.1   worker-2
+
+192.168.68.152   controller
+192.168.68.150   worker-1
+192.168.68.151   worker-2
+192.168.68.50    ugreen-nas
+```
+
 Now you can simply run:
 ```
 ping controller
 ssh worker-2
 ```
+If the connection succeeds by hostname, your internal resolution is configured correctly.
 
-## 🗺️ Network Topology
-```
-TP-Link Deco Router (192.168.68.1)
-│
-├── controller  192.168.68.152
-├── worker-1    192.168.68.150
-├── worker-2    192.168.68.151
-└── ugreen-nas  192.168.68.50
-Flat LAN 192.168.68.0/24 — simple, quiet, and reliable for early K3s experiments.
-```
+
+
+
+
+
+
 
 ## 🔐 Security Notes
 
