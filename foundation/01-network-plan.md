@@ -71,11 +71,16 @@ To prevent Cloud-Init from overwriting manual settings, create:
 ```
 sudo nano /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 ```
+
 and add:
 ```
 network: {config: disabled}
 ```
 
+💡 After applying, verify the active configuration using:
+```
+ip a
+```
 
 
 
