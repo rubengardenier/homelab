@@ -47,7 +47,6 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 
 ```
 Example configuration for worker-1:
-
 ```
 network:
   version: 2
@@ -62,3 +61,10 @@ network:
       nameservers:
         addresses: [1.1.1.1, 8.8.8.8]
 ```
+
+Apply the configuration:
+```
+sudo netplan apply
+```
+
+
