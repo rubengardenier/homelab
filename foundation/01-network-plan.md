@@ -92,5 +92,13 @@ Worker 1	worker-1
 Worker 2	worker-2
 
 Hostnames are set once using:
+```
+sudo hostnamectl set-hostname worker-1
+```
+
+and verified with:
+```
+hostnamectl
+```
 
 
