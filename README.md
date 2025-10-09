@@ -79,6 +79,8 @@ homelab/
     └── roadmap.md
 Each section contains step-by-step guides, configurations, and experiments.
 
+```
+
 🚀 Vision
 The goal of this Homelab is to bridge theory and practice —
 to gain real-world skills that directly translate into professional cloud engineering, DevOps, and Kubernetes experience.
