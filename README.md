@@ -1,96 +1,114 @@
-# 🧠 Homelab — My Personal Cloud & Kubernetes Playground
+🌐 Homelab — Network Plan & Configuration
 
-Welcome to my **Homelab** project — a continuously evolving learning environment where I experiment with **cloud-native infrastructure**, **Kubernetes**, and **DevOps automation** on real hardware at home.
+This document describes the current and future network design of my Homelab cluster.
+It includes static IP configuration, hostnames, Netplan setup, /etc/hosts entries, and plans for VLAN segmentation.
 
-This repository serves both as:
-- a **knowledge base** of everything I learn, build, and break  
-- and as a **public portfolio** showcasing my hands-on experience with modern cloud technologies  
+🏠 Phase 1 — Current Network Setup
 
----
+The Homelab currently runs inside my existing TP-Link Deco mesh WiFi system.
+All nodes and devices share a single subnet managed by the Deco router.
 
-## ⚙️ Hardware Setup
+Setting	Value
+Router	TP-Link Deco
+Subnet	192.168.68.0/24
+Gateway	192.168.68.1
+DNS	Cloudflare 1.1.1.1 / Google 8.8.8.8
+DHCP	Enabled (Deco)
+VLANs	None (flat network)
 
-My cluster is built on a small but efficient setup:
+💡 The Deco system doesn’t yet support VLANs, so everything runs on one flat network for simplicity.
 
-| Role | Device | Specs | OS |
-|------|---------|-------|----|
-| Controller | HP ProDesk | 4 vCPU / 8 GB RAM / 256 GB SSD | Ubuntu Server 24.04 LTS |
-| Worker 1 | HP EliteDesk Mini | 4 vCPU / 8 GB RAM / 256 GB NVMe | Ubuntu Server 24.04 LTS |
-| Worker 2 | HP EliteDesk Mini | 4 vCPU / 8 GB RAM / 256 GB NVMe | Ubuntu Server 24.04 LTS |
-| Storage Backend | Ugreen NASync DXP2800 | Intel N100 / 8 GB DDR5 / 2 × Samsung 870 EVO 4 TB (RAID 1) + NVMe expansion | Ugreen NAS OS (Linux-based) |
+🧾 Static IP and Hostnames
 
-Lightweight, quiet, and power-efficient — perfect for experimentation and 24/7 operation.
+Each node uses a manually configured static IP (set via Netplan in /etc/netplan/50-cloud-init.yaml).
 
----
+Role	Hostname	IP Address	Notes
+Controller	controller	192.168.68.152	Ubuntu Server 24.04 LTS
+Worker 1	worker-1	192.168.68.150	Ubuntu Server 24.04 LTS
+Worker 2	worker-2	192.168.68.151	Ubuntu Server 24.04 LTS
+NAS	ugreen-nas	192.168.68.50	Ugreen NASync DXP2800 (NFS backend)
+Gateway	deco-router	192.168.68.1	TP-Link Deco system
+⚙️ Netplan Configuration (on each node)
 
-## ☸️ Goals & Focus Areas
+Edit file: /etc/netplan/50-cloud-init.yaml
 
-- Build a **multi-node Kubernetes cluster** using [K3s](https://k3s.io)  
-- Learn to deploy, manage, and monitor workloads locally  
-- Explore key components:
-  - **Ingress NGINX**, **MetalLB**, **Cert-Manager**
-  - **Persistent storage** (Ugreen NAS via NFS / Longhorn)
-  - **Observability** (Prometheus, Grafana, Loki)
-- Practice **Infrastructure-as-Code** concepts with:
-  - Bicep / Terraform  
-  - Ansible / Bash automation  
-  - GitHub Actions or Azure DevOps pipelines
-- Document every step to make learning repeatable and transparent
+Example for worker-1:
 
----
+ network: version 2
+ ethernets: enp1s0
+  dhcp4: false
+  addresses: 192.168.68.150/24
+  routes: to default → via 192.168.68.1
+  nameservers: 1.1.1.1, 8.8.8.8
 
-## 🧱 Foundation
+Apply changes: run sudo netplan apply
+(optional) disable Cloud-Init overwriting → create /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the line:
+ network: {config: disabled}
 
-All preparation and setup documentation lives in the [`foundation/`](./foundation/) directory:
+🧱 Hostnames and /etc/hosts
 
-- [Network Plan](./foundation/01-network-plan.md)
-- [Static IP Configuration](./foundation/02-network-config.md)
-- [Node Preparation (tmux, k9s, .bashrc, .vimrc)](./foundation/03-node-preparation.md)
-- [Storage & NAS Setup](./infrastructure/storage/00-nas-setup.md)
+Set hostnames once per node:
+ controller → sudo hostnamectl set-hostname controller
+ worker-1 → sudo hostnamectl set-hostname worker-1
+ worker-2 → sudo hostnamectl set-hostname worker-2
 
-This section captures all groundwork before cluster deployment —  
-from IP planning to tool setup and editor tuning.
+Verify with hostnamectl.
 
----
+Update /etc/hosts on each node:
 
-## 🧩 Repository Structure
+ 127.0.0.1 localhost
+ 127.0.1.1 (hostname)
+ 192.168.68.152 controller
+ 192.168.68.150 worker-1
+ 192.168.68.151 worker-2
+ 192.168.68.50 ugreen-nas
 
-```text
-homelab/
-│
-├── foundation/
-│   ├── 01-network-plan.md
-│   ├── 02-network-config.md
-│   ├── 03-node-preparation.md
-│   └── README.md
-│
-├── kubernetes-fundamentals/
-│   ├── setup/
-│   ├── deployments/
-│   └── notes/
-│
-├── infrastructure/
-│   ├── network/
-│   ├── storage/
-│   └── automation/
-│
-└── docs/
-    ├── lessons-learned.md
-    └── roadmap.md
-Each section contains step-by-step guides, configurations, and experiments.
+Now you can ping controller or ssh worker-1 directly.
 
-🚀 Vision
-The goal of this Homelab is to bridge theory and practice —
-to gain real-world skills that directly translate into professional cloud engineering, DevOps, and Kubernetes experience.
+🗺️ Topology Overview
 
-Eventually, I plan to:
+ TP-Link Deco Router (192.168.68.1)
+  │
+  ├── controller 192.168.68.152
+  ├── worker-1 192.168.68.150
+  ├── worker-2 192.168.68.151
+  └── ugreen-nas 192.168.68.50
 
-Run production-like services (e.g., Mealie, Gitea, Grafana)
+Flat LAN 192.168.68.0/24 — simple and stable for initial K3s deployment.
 
-Automate cluster rebuilds end-to-end
+🔐 Security Notes
 
-Experiment with hybrid Azure + on-prem setups
+SSH allowed only inside LAN (192.168.68.0/24)
 
-Develop a custom Arch Linux–based Kubernetes distribution optimized for homelab and learning
+NFS exports restricted to controller + workers
 
-“If you can build and break it at home, you can run it in production.” 🧩
+No ports exposed to internet
+
+Deco remote management disabled
+
+SSH keys used for authentication
+
+Future: firewall rules for network segmentation
+
+🔮 Phase 2 — Future Network Segmentation
+VLAN	Subnet	Purpose
+10	192.168.10.0/24	Home & IoT
+20	192.168.20.0/24	Homelab / Kubernetes
+30	192.168.30.0/24	NAS / Storage
+99	192.168.99.0/24	Management & Monitoring
+
+Goals → better isolation, reduced noise, and future integration with pfSense or UniFi.
+
+✅ Summary
+
+Single flat subnet 192.168.68.0/24 (Deco)
+
+Static IPs set manually via Netplan
+
+Hostnames controller / worker-1 / worker-2
+
+Consistent /etc/hosts across all nodes
+
+Secure and ready for K3s
+
+Next step → introduce VLANs for segmentation
