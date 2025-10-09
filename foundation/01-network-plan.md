@@ -48,6 +48,7 @@ sudo nano /etc/netplan/50-cloud-init.yaml
 ```
 Example configuration for worker-1:
 
+```
 network:
   version: 2
   ethernets:
