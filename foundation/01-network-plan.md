@@ -101,4 +101,20 @@ and verified with:
 hostnamectl
 ```
 
+To ensure smooth internal name resolution, all nodes share the same /etc/hosts entries:
+```
+127.0.0.1   localhost
+127.0.1.1   worker-1
+
+192.168.68.152   controller
+192.168.68.150   worker-1
+192.168.68.151   worker-2
+192.168.68.50    ugreen-nas
+```
+Now you can simply run:
+```
+ping controller
+ssh worker-2
+```
+
 
