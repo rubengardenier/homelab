@@ -41,12 +41,18 @@ Lightweight, quiet, and power-efficient — perfect for experimentation and 24/7
 
 ## 🧱 Foundation
 
-All preparation and setup documentation lives in the [`foundation/`](./foundation/) directory:
+All preparation and setup documentation lives in the [`foundation/`](./foundation/) directory.  
+This section contains all groundwork completed **before deploying the K3s cluster** —  
+from network design to node setup and NAS configuration.
 
-- [Network Plan](./foundation/01-network-plan.md)
-- [Static IP Configuration](./foundation/02-network-config.md)
-- [Node Preparation (tmux, k9s, .bashrc, .vimrc)](./foundation/03-node-preparation.md)
-- [Storage & NAS Setup](./infrastructure/storage/00-nas-setup.md)
+| Topic | Description |
+|--------|-------------|
+| [Network Plan & Configuration](./foundation/01-network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
+| [Node Preparation](./foundation/03-node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`). |
+| [Storage & NAS Setup](./infrastructure/storage/00-nas-setup.md) | Setup of the Ugreen NAS for shared persistent storage (NFS, backups, and Longhorn integration). |
+
+Each document builds upon the previous one — together forming the stable foundation for the Homelab cluster.
+
 
 This section captures all groundwork before cluster deployment —  
 from IP planning to tool setup and editor tuning.
