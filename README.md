@@ -17,8 +17,10 @@ My cluster is built on a small but efficient setup:
 | Controller | HP ProDesk | 4 vCPU / 8 GB RAM / 256 GB SSD | Ubuntu Server 24.04 LTS |
 | Worker 1 | HP EliteDesk Mini | 4 vCPU / 8 GB RAM / 256 GB NVMe | Ubuntu Server 24.04 LTS |
 | Worker 2 | HP EliteDesk Mini | 4 vCPU / 8 GB RAM / 256 GB NVMe | Ubuntu Server 24.04 LTS |
+| Storage Backend | Ugreen NASync DXP2800 | Intel N100 / 8 GB DDR5 / 2 × Samsung 870 EVO 4 TB ( RAID 1 ) + NVMe expansion | Ugreen NAS OS (Linux-based) |
 
-Lightweight, power-efficient, and perfect for experimentation.
+Lightweight, quiet, and power-efficient — perfect for experimentation and 24/7 operation.
+
 
 ---
 
