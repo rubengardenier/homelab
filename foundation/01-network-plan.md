@@ -117,4 +117,22 @@ ping controller
 ssh worker-2
 ```
 
+## 🗺️ Network Topology
+```
+TP-Link Deco Router (192.168.68.1)
+│
+├── controller  192.168.68.152
+├── worker-1    192.168.68.150
+├── worker-2    192.168.68.151
+└── ugreen-nas  192.168.68.50
+Flat LAN 192.168.68.0/24 — simple, quiet, and reliable for early K3s experiments.
+```
+
+## 🔐 Security Notes
+
+- SSH access allowed only within LAN (192.168.68.0/24)
+- NFS exports on the NAS restricted to controller and worker IPs
+- No inbound ports exposed to the internet
+- Deco cloud remote management disabled
+- SSH key-based authentication enforced on all nodes
 
