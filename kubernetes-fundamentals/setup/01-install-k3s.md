@@ -15,7 +15,7 @@ In this setup, one node acts as the **controller (server)** and two nodes act as
 | Worker 1 | `worker-1` | `192.168.68.150` | Ubuntu Server 24.04 LTS | K3s agent node |
 | Worker 2 | `worker-2` | `192.168.68.151` | Ubuntu Server 24.04 LTS | K3s agent node |
 
----
+
 
 ## ⚙️ Step 1 — Install K3s on the Controller
 
