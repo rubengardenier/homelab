@@ -21,7 +21,7 @@ All devices share a single flat subnet for simplicity and stability during the i
 
 💡 *The goal in this phase is simplicity: a predictable, stable environment for initial cluster builds and testing.*
 
-<br>
+---
 
 ## 🧾 Static IP & Hostname Overview
 
