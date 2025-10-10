@@ -25,17 +25,17 @@ ssh controller
 ```
 
 Install the K3s server (with readable kubeconfig for your user):
-```
+```bash
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 ```
 
 Check that it’s running:
-```
+```bash
 sudo systemctl status k3s
 ```
 
 Get the node token (needed for worker registration):
-```
+```bash
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 
@@ -45,23 +45,23 @@ K10870e4c67eae3abac52f3f6e2b3db93a86dc6ccdd7f3d8a2a7c3e9cc6c39c7a::server:1c32a8
 ```
 
 Verify the initial controller node:
-```
+```bash
 sudo kubectl get nodes -o wide
 ```
 
 ## ⚙️ Step 2 — Join the Worker Nodes
 Repeat the following on worker-1 and worker-2:
-```
+```bash
 ssh worker-1
 ```
 
 Install the K3s agent, replacing the token and IP with your own:
-```
+```bash
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.68.152:6443 K3S_TOKEN=<your-node-token> sh -
 ```
 
 Check the agent status:
-```
+```bash
 sudo systemctl status k3s-agent
 ```
 Repeat the same for worker-2.
@@ -70,7 +70,7 @@ Repeat the same for worker-2.
 
 ## 🧩 Step 3 — Verify Cluster Status
 Back on the controller, confirm that all nodes are active and connected:
-```
+```bash
 sudo kubectl get nodes -o wide
 ```
 Output:
@@ -79,3 +79,34 @@ Output:
 | controller  | Ready  | control-plane,master  | 3m18s | v1.33.5+k3s1  | 192.168.68.152 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
 | worker-1    | Ready  | <none>                | 66s   | v1.33.5+k3s1  | 192.168.68.150 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
 | worker-2    | Ready  | <none>                | 55s   | v1.33.5+k3s1  | 192.168.68.151 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
+
+
+## 🔐 Post-Install — Kubeconfig Setup
+
+After installing K3s, the controller stores the cluster configuration file here:
+```bash
+/etc/rancher/k3s/k3s.yaml
+```
+
+By default, this file is owned by `root` and only readable with `sudo`.  
+To allow your regular user (`ruben`) to access the cluster using `kubectl`, copy and fix the permissions:
+```bash
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $(id -u):$(id -g) ~/.kube/config
+```
+
+Now test the connection:
+```bash
+kubectl get nodes -o wide
+```
+
+If you see your controller and workers listed, your local kubectl is correctly talking to the K3s API
+
+- K9s
+- Lens
+- VS Code with the Kubernetes extension
+
+They’ll automatically use the same ~/.kube/config context.
+
+
