@@ -8,6 +8,7 @@ sudo apt install -y curl wget git htop unzip net-tools
 ```
 💡 This ensures every node has the same base utilities and latest security updates.
 
+--
 
 ## 🧱 2. Install tmux
 tmux lets you keep sessions running even if your SSH connection drops.
@@ -23,6 +24,7 @@ tmux attach -t homelab
 ```
 ✅ Great for K3s installs or long-running commands.
 
+--
 
 ## ☸️ 3. Install k9s
 k9s is a powerful terminal UI for managing Kubernetes.
