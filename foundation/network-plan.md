@@ -2,8 +2,8 @@
 
 The Network Plan describes how my Homelab cluster is connected, how each node receives its IP address and hostname, and how the design will evolve over time.  
 It serves both as a technical reference and as documentation of my decision-making process.
-
----
+ 
+<br>
 
 ## 🏠 Phase 1 — Current Network Setup
 
@@ -21,7 +21,8 @@ All devices share a single flat subnet for simplicity and stability during the i
 
 💡 *The goal in this phase is simplicity: a predictable, stable environment for initial cluster builds and testing.*
 
----
+<br>
+
 ## 🧾 Static IP & Hostname Overview
 
 Each Ubuntu node uses a **manually configured static IP** via Netplan (`/etc/netplan/50-cloud-init.yaml`).  
@@ -35,7 +36,7 @@ Hostnames follow a consistent pattern for clarity inside the cluster.
 | NAS | `ugreen-nas` | `192.168.68.50` | Ugreen NASync DXP2800 (NFS backend) |
 | Gateway | `deco-router` | `192.168.68.1` | TP-Link Deco mesh router |
 
----
+<br>
 
 ## ⚙️ Netplan Configuration (Ubuntu 24.04 LTS)
 
@@ -81,6 +82,7 @@ network: {config: disabled}
 ```
 ip a
 ```
+
 ## 🧱 Hostnames and Local Resolution
 
 Each node in the cluster has a clear, descriptive hostname:
@@ -134,6 +136,7 @@ ssh worker-1
 ```
 If these commands respond successfully, hostname resolution across your cluster is working correctly.
 
+<br>
 
 ## Example /etc/hosts Files
 🖥️ Controller
@@ -168,7 +171,7 @@ If these commands respond successfully, hostname resolution across your cluster 
 192.168.68.151   worker-2
 192.168.68.50    ugreen-nas
 ```
---
+
 
 ## 💻 Local Workstation (Ubuntu Client)
 
@@ -199,7 +202,7 @@ ssh worker-2
 
 ✅ This makes administration and testing easier while keeping all devices on consistent naming.
 
---
+<br>
 
 ## 🧭 Future Improvement — Centralized DNS via Pi-hole
 
@@ -209,6 +212,7 @@ I am working toward a cleaner, centralized DNS approach using **Pi-hole**.
 Pi-hole will run inside the homelab network (most likely on the Ugreen NAS) and act as the primary DNS server for all nodes.  
 This will eliminate the need to manually configure hostnames on every device and allow the cluster to resolve internal domains such as:
 
+<br>
 
 ## 🔐 Security Notes
 
