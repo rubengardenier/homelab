@@ -11,7 +11,7 @@ sudo apt install -y curl wget git htop unzip net-tools
 
 💡 This ensures every node has the same base utilities and latest security updates.
 
----
+<br>
 
 ## 🧱 2. Install tmux
 
@@ -63,7 +63,7 @@ tmux attach -t homelab
 | Worker-1    | ✅ Yes        | 🔴 Rarely    | Troubleshooting if needed         |
 | Worker-2    | ✅ Yes        | 🔴 Rarely    | Troubleshooting if needed         |
 
----
+<br>
 
 ## ☸️ 3. Install k9s
 
