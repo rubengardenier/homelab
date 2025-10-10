@@ -73,7 +73,12 @@ Back on the controller, confirm that all nodes are active and connected:
 ```
 sudo kubectl get nodes -o wide
 ```
-
+Output:
+| NAME        | STATUS | ROLES                 | AGE  | VERSION       | INTERNAL-IP    | EXTERNAL-IP | OS-IMAGE             | KERNEL-VERSION   | CONTAINER-RUNTIME          |
+|--------------|--------|-----------------------|------|----------------|----------------|--------------|----------------------|------------------|-----------------------------|
+| controller  | Ready  | control-plane,master  | 3m18s | v1.33.5+k3s1  | 192.168.68.152 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
+| worker-1    | Ready  | <none>                | 66s   | v1.33.5+k3s1  | 192.168.68.150 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
+| worker-2    | Ready  | <none>                | 55s   | v1.33.5+k3s1  | 192.168.68.151 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
 
 
 
