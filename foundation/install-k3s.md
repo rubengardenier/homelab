@@ -22,3 +22,31 @@ In this setup, one node acts as the **controller (server)** and two nodes act as
 SSH into the controller:
 ```bash
 ssh controller
+```
+
+Install the K3s server:
+```
+curl -sfL https://get.k3s.io | sh -
+```
+
+Check that it’s running:
+```
+sudo systemctl status k3s
+```
+
+Get the node token (needed for worker registration):
+```
+sudo cat /var/lib/rancher/k3s/server/node-token
+```
+
+Example token:
+```
+K10870e4c67eae3abac52f3f6e2b3db93a86dc6ccdd7f3d8a2a7c3e9cc6c39c7a::server:1c32a8f3d4b29b1a1d0aafc3e8f1b8f3
+```
+
+Verify the initial controller node:
+```
+sudo kubectl get nodes -o wide
+```
+
+
