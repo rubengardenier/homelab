@@ -24,9 +24,9 @@ SSH into the controller:
 ssh controller
 ```
 
-Install the K3s server:
+Install the K3s server (with readable kubeconfig for your user):
 ```
-curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 ```
 
 Check that it’s running:
