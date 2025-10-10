@@ -39,54 +39,28 @@ Lightweight, quiet, and power-efficient — perfect for experimentation and 24/7
 
 ---
 
-## 🧱 Foundation
 
-All preparation and setup documentation lives in the [`foundation/`](./foundation/) directory.  
-This section contains all groundwork completed before deploying the K3s cluster — from network design to node setup and NAS configuration.
+## 🧱 Foundation Overview
+
+The **Foundation** section contains all the groundwork completed before deploying the K3s cluster —  
+from network design and hostname planning to node setup and NAS configuration.
+
+Each topic builds on the previous one, forming a stable and repeatable base for the Homelab.
 
 | Topic | Description |
 |------|-------------|
-| [Network Plan & Configuration](./foundation/network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
-| [Node Preparation](./foundation/node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`). |
-| [K3s Cluster Installation — Multi-node Setup](./kubernetes-fundamentals/setup/01-install-k3s.md) | Install K3s on the controller and join worker nodes; verify the cluster. |
-| Storage & NAS Setup *(coming soon)* | Setup of the Ugreen NAS for shared persistent storage (NFS, backups, and Longhorn integration). |
+| [🌐 Network Plan & Configuration](./foundation/01-network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
+| [🧰 Node Preparation](./foundation/03-node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`). |
+| [☸️ K3s Cluster Installation — Multi-node Setup](./kubernetes-fundamentals/setup/01-install-k3s.md) | Install K3s on the controller and join worker nodes; verify the cluster. |
+| [💾 Storage & NAS Setup *(coming soon)*](./infrastructure/storage/README.md) | Configuration of the Ugreen NAS for shared persistent storage (NFS, backups, Longhorn integration). |
+| [📈 Observability *(coming soon)*](./kubernetes-fundamentals/monitoring/README.md) | Monitoring stack with Prometheus, Grafana, and Loki. |
+| [🧩 Lessons Learned](./docs/lessons-learned.md) | Key takeaways and troubleshooting notes from each stage of the setup. |
 
-Each document builds upon the previous one — together forming the stable foundation for the Homelab cluster.
+💡 *This table serves as your clickable roadmap through the entire Homelab journey.*
 
 ---
 
-## 🧩 Repository Structure
-
-```text
-homelab/
-│
-├── foundation/
-│   ├── 01-network-plan.md
-│   ├── 02-network-config.md              # coming soon
-│   ├── 03-node-preparation.md
-│   └── README.md
-│
-├── kubernetes-fundamentals/
-│   ├── setup/
-│   │   ├── 01-install-k3s.md
-│   │   └── README.md
-│   ├── deployments/                      # coming soon
-│   └── notes/                            # coming soon
-│
-├── infrastructure/
-│   ├── network/                          # coming soon
-│   ├── storage/                          # coming soon
-│   └── automation/                       # coming soon
-│
-└── docs/
-    ├── lessons-learned.md                # coming soon
-    └── roadmap.md                        # coming soon
-
-Each section contains step-by-step guides, configurations, and experiments.
-
-```
-
-🚀 Vision
+## 🚀 Vision
 The goal of this Homelab is to bridge theory and practice —
 to gain real-world skills that directly translate into professional cloud engineering, DevOps, and Kubernetes experience.
 
