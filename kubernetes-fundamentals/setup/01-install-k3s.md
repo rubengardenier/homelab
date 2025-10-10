@@ -81,32 +81,94 @@ Output:
 | worker-2    | Ready  | <none>                | 55s   | v1.33.5+k3s1  | 192.168.68.151 | <none>       | Ubuntu 24.04.3 LTS  | 6.8.0-85-generic | containerd://2.1.4-k3s1     |
 
 
-## 🔐 Post-Install — Kubeconfig Setup
+## 🧩 Step 4 — Set Up Kubeconfig Access on Your Laptop
 
-After installing K3s, the controller stores the cluster configuration file here:
+Once K3s is installed on the controller, you can manage the cluster remotely from your laptop.  
+To do this, you’ll copy the `kubeconfig` file from your controller to your local machine  
+and configure your environment so `kubectl` always knows where to find it.
+
+---
+
+### 🪣 1. Copy the kubeconfig from the controller
+
+Run this **on your laptop**, not on the controller:
+
 ```bash
-/etc/rancher/k3s/k3s.yaml
+scp username@192.168.68.152:~/.kube/config ~/.kube/config-homelab
 ```
 
-By default, this file is owned by `root` and only readable with `sudo`.  
-To allow your regular user (`ruben`) to access the cluster using `kubectl`, copy and fix the permissions:
+Enter your SSH password when prompted.
+This copies the cluster’s kubeconfig to your local .kube directory.
+
+Verify it exists:
 ```bash
-mkdir -p ~/.kube
-sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-sudo chown $(id -u):$(id -g) ~/.kube/config
+ls -l ~/.kube/
 ```
 
-Now test the connection:
+Expected output:
 ```bash
-kubectl get nodes -o wide
+config-homelab
 ```
 
-If you see your controller and workers listed, your local kubectl is correctly talking to the K3s API
+### 🧭 2. Update the API server address
 
-- K9s
-- Lens
-- VS Code with the Kubernetes extension
+By default, the kubeconfig file uses 127.0.0.1 as the cluster API address.
+You need to replace it with the controller’s LAN IP so your laptop can reach it.
 
-They’ll automatically use the same ~/.kube/config context.
+Edit the file:
+```bash
+nano ~/.kube/config-homelab
+```
+
+Find the line:
+```bash
+server: https://127.0.0.1:6443
+```
+
+Change it to:
+```bash
+server: https://192.168.68.152:6443
+```
+
+Save (Ctrl + O, Enter) and exit (Ctrl + X).
+
+### ⚙️ 3. Set KUBECONFIG permanently (recommended)
+To make this configuration the default every time you open a terminal,
+add this line to your .bashrc file:
+```bash
+echo 'export KUBECONFIG=$HOME/.kube/config-homelab' >> ~/.bashrc
+source ~/.bashrc
+```
+
+✅ Now you can use kubectl directly without specifying the kubeconfig file:
+``` bash
+kubectl get nodes
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
