@@ -168,19 +168,46 @@ If these commands respond successfully, hostname resolution across your cluster 
 192.168.68.151   worker-2
 192.168.68.50    ugreen-nas
 ```
+--
 
-Now you can simply run:
+## 💻 Local Workstation (Ubuntu Client)
+
+To allow my personal Ubuntu laptop to connect to the cluster nodes by hostname
+(rather than typing IP addresses), I also added the same entries locally on my client machine.
+
+Edit the local hosts file:
 ```
-ping controller
+sudo nano /etc/hosts
+```
+
+Add the following lines at the bottom:
+```
+192.168.68.152   controller
+192.168.68.150   worker-1
+192.168.68.151   worker-2
+192.168.68.50    ugreen-nas
+```
+
+Save and exit (Ctrl + O, Enter, then Ctrl + X).
+
+Now I can connect directly from my laptop using hostnames:
+```
+ssh controller
+ssh worker-1
 ssh worker-2
 ```
-If the connection succeeds by hostname, your internal resolution is configured correctly.
 
+✅ This makes administration and testing easier while keeping all devices on consistent naming.
 
+--
 
+## 🧭 Future Improvement — Centralized DNS via Pi-hole
 
+While the current setup relies on manual `/etc/hosts` entries for hostname resolution,  
+I am working toward a cleaner, centralized DNS approach using **Pi-hole**.
 
-
+Pi-hole will run inside the homelab network (most likely on the Ugreen NAS) and act as the primary DNS server for all nodes.  
+This will eliminate the need to manually configure hostnames on every device and allow the cluster to resolve internal domains such as:
 
 
 ## 🔐 Security Notes
