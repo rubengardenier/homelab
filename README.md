@@ -49,8 +49,8 @@ Each topic builds on the previous one, forming a stable and repeatable base for 
 
 | Topic | Description |
 |------|-------------|
-| [🌐 Network Plan & Configuration](./foundation/01-network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
-| [🧰 Node Preparation](./foundation/03-node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`). |
+| [🌐 Network Plan & Configuration](./foundation/network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
+| [🧰 Node Preparation](./foundation/node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`).
 | [☸️ K3s Cluster Installation — Multi-node Setup](./kubernetes-fundamentals/setup/01-install-k3s.md) | Install K3s on the controller and join worker nodes; verify the cluster. |
 | [💾 Storage & NAS Setup *(coming soon)*](./infrastructure/storage/README.md) | Configuration of the Ugreen NAS for shared persistent storage (NFS, backups, Longhorn integration). |
 | [📈 Observability *(coming soon)*](./kubernetes-fundamentals/monitoring/README.md) | Monitoring stack with Prometheus, Grafana, and Loki. |
