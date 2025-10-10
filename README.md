@@ -49,6 +49,8 @@ from network design to node setup and NAS configuration.
 |--------|-------------|
 | [Network Plan & Configuration](./foundation/network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
 | [Node Preparation](./foundation/node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`). |
+| [K3s Cluster Installation — Multi-node Setup](. /)
+
 | [Storage & NAS Setup](./infrastructure/storage/nas-setup.md) | Setup of the Ugreen NAS for shared persistent storage (NFS, backups, and Longhorn integration). |
 
 Each document builds upon the previous one — together forming the stable foundation for the Homelab cluster.
