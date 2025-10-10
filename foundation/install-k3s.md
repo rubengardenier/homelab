@@ -49,4 +49,33 @@ Verify the initial controller node:
 sudo kubectl get nodes -o wide
 ```
 
+## ⚙️ Step 2 — Join the Worker Nodes
+Repeat the following on worker-1 and worker-2:
+```
+ssh worker-1
+```
+
+Install the K3s agent, replacing the token and IP with your own:
+```
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.68.152:6443 K3S_TOKEN=<your-node-token> sh -
+```
+
+Check the agent status:
+```
+sudo systemctl status k3s-agent
+```
+Repeat the same for worker-2.
+
+<br>
+
+## 🧩 Step 3 — Verify Cluster Status
+Back on the controller, confirm that all nodes are active and connected:
+```
+sudo kubectl get nodes -o wide
+```
+
+
+
+
+
 
