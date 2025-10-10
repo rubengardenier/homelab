@@ -48,13 +48,13 @@ from network design and hostname planning to node setup and NAS configuration.
 Each topic builds on the previous one, forming a stable and repeatable base for the Homelab.
 
 | Topic | Description |
-|------|-------------|
-| [🌐 Network Plan & Configuration](./foundation/network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
-| [🧰 Node Preparation](./foundation/node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`).
-| [☸️ K3s Cluster Installation — Multi-node Setup](./kubernetes-fundamentals/setup/01-install-k3s.md) | Install K3s on the controller and join worker nodes; verify the cluster. |
-| [💾 Storage & NAS Setup *(coming soon)*](./infrastructure/storage/README.md) | Configuration of the Ugreen NAS for shared persistent storage (NFS, backups, Longhorn integration). |
-| [📈 Observability *(coming soon)*](./kubernetes-fundamentals/monitoring/README.md) | Monitoring stack with Prometheus, Grafana, and Loki. |
-| [🧩 Lessons Learned](./docs/lessons-learned.md) | Key takeaways and troubleshooting notes from each stage of the setup. |
+|-------------|-------|
+| [01 Network Plan & Configuration](./foundation/network-plan.md) | Defines the IP schema, hostnames, Netplan setup, and `/etc/hosts` synchronization between all nodes. |
+| [02 Node Preparation](./foundation/node-preparation.md) | Installation and configuration of essential CLI tools such as `tmux`, `k9s`, and shell/editor customization (`.bashrc`, `.vimrc`).
+| [03 K3s Cluster Installation — Multi-node Setup](./kubernetes-fundamentals/setup/01-install-k3s.md) | Install K3s on the controller and join worker nodes; verify the cluster. |
+| [04 Storage & NAS Setup *(coming soon)*](./infrastructure/storage/README.md) | Configuration of the Ugreen NAS for shared persistent storage (NFS, backups, Longhorn integration). |
+| [05 Observability *(coming soon)*](./kubernetes-fundamentals/monitoring/README.md) | Monitoring stack with Prometheus, Grafana, and Loki. |
+| [06 Lessons Learned](./docs/lessons-learned.md) | Key takeaways and troubleshooting notes from each stage of the setup. |
 
 💡 *This table serves as your clickable roadmap through the entire Homelab journey.*
 
