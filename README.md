@@ -62,23 +62,26 @@ homelab/
 │
 ├── foundation/
 │   ├── 01-network-plan.md
-│   ├── 02-network-config.md
+│   ├── 02-network-config.md              # coming soon
 │   ├── 03-node-preparation.md
 │   └── README.md
 │
 ├── kubernetes-fundamentals/
 │   ├── setup/
-│   ├── deployments/
-│   └── notes/
+│   │   ├── 01-install-k3s.md
+│   │   └── README.md
+│   ├── deployments/                      # coming soon
+│   └── notes/                            # coming soon
 │
 ├── infrastructure/
-│   ├── network/
-│   ├── storage/
-│   └── automation/
+│   ├── network/                          # coming soon
+│   ├── storage/                          # coming soon
+│   └── automation/                       # coming soon
 │
 └── docs/
-    ├── lessons-learned.md
-    └── roadmap.md
+    ├── lessons-learned.md                # coming soon
+    └── roadmap.md                        # coming soon
+
 Each section contains step-by-step guides, configurations, and experiments.
 
 ```
